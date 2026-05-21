@@ -1,0 +1,193 @@
+.header {
+  margin-bottom: 40px;
+}
+
+.greeting {
+  font-family: 'CaveatFitted', cursive;
+  font-weight: 500;
+  font-size: 24px;
+  color: var(--text);
+  margin-bottom: 6px;
+  width: fit-content;
+}
+
+.greeting:hover {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  /* color: var(--red); */
+}
+
+.header p {
+  color: var(--text);
+}
+
+section {
+  margin-bottom: 32px;
+}
+
+.back-button,
+.project-link-button {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.45;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: baseline;
+  white-space: nowrap;
+  position: relative;
+}
+
+.back-button:hover,
+.project-link-button:hover {
+  font-family: 'CaveatFitted', cursive;
+  font-weight: 500;
+}
+
+.back-button {
+  margin-bottom: 28px;
+}
+
+.project-link-button {
+  margin-top: 12px;
+}
+
+.back-button::after,
+.project-link-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5px;
+  background-color: var(--muted);
+}
+
+.back-button::before,
+.project-link-button::before {
+  content: attr(data-label);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.projects-page {
+  padding-top: 2px;
+}
+
+.label {
+  font-size: 19px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 5px 0;
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.item-title {
+  font-weight: 400;
+}
+
+.item-date {
+  color: var(--muted);
+  font-size: 14px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.item-meta {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 1px;
+}
+
+/* Programmeringsspråk */
+.code {
+  font-family: 'Roboto Mono', ui-monospace, monospace;
+  font-size: 15px;
+}
+
+/* Språksektion */
+.lang-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.lang-level {
+  color: var(--muted);
+  font-size: 14px;
+  min-width: 52px;
+  flex-shrink: 0;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: baseline;
+  white-space: nowrap;
+  position: relative;
+  cursor: pointer;
+}
+
+a::before,
+button::before {
+  content: attr(data-label);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+a::after,
+button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.5px;
+  background-color: var(--text);
+}
+
+a:hover {
+  font-family: 'CaveatFitted', cursive;
+  font-weight: 500;
+}

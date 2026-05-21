@@ -1,0 +1,57 @@
+/*
+  CaveatFitted är Caveat med justerade linjemetrics för att matcha DM Sans:
+  - ascent/descent-override normaliserar radboxen → ingen layout-shift vid hover
+  - size-adjust skalas tills x-höjden matchar DM Sans visuellt (kalibreras iterativt)
+*/
+@font-face {
+  font-family: 'CaveatFitted';
+  src: url('/fonts/Caveat-Medium.ttf') format('truetype');
+  font-weight: 500;
+  ascent-override: 82.3%;
+  descent-override: 21.2%;
+  line-gap-override: 0%;
+  size-adjust: 113%;
+}
+
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #888888;
+  --line: #e8e8e8;
+  --red: #d60000;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f0f0f;
+    --text: #ededed;
+    --muted: #666666;
+    --line: #252525;
+    --red: #ff3b3b;
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  cursor: default;
+}
+
+#root {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+}
