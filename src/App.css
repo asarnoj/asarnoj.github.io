@@ -1,74 +1,98 @@
-.header {
-  margin-bottom: 40px;
+/* ── Layout ────────────────────────────────────────────────────────
+   Grid: | --gutter | 2fr (meny) | --gutter | 1fr (panel) | --gutter |
+   Ett enda mått styr vänsterkant, mittgap och högerkant.           */
+.layout {
+  display: grid;
+  grid-template-columns: var(--gutter) 2fr var(--gutter) 1fr var(--gutter);
+  min-height: 100vh;
 }
 
-.greeting {
-  font-family: 'CaveatFitted', cursive;
-  font-weight: 500;
-  font-size: 24px;
-  color: var(--text);
-  margin-bottom: 6px;
-  width: fit-content;
+.left-pane  { grid-column: 2; padding: 60px 0 80px; }
+.right-pane { grid-column: 4; padding: 60px 0 80px; }
+
+/* Single-column pages (Everything else, detaljsida på mobil) */
+.single-pane { padding: 60px var(--gutter) 80px; }
+
+
+/* ── Leaving-page-icon ─────────────────────────────────────────── */
+/* inline-block: följer text-baseline, stöder position:relative     */
+.link-wrapper {
+  display: inline-block;
+  vertical-align: baseline;
+  position: relative;
 }
 
-.greeting:hover {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  /* color: var(--red); */
+/* Underline täcker text + ikon */
+.link-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  height: 0.5px;
+  background-color: var(--text);
 }
 
-.header p {
-  color: var(--text);
+/* <a>:s egna underline tas bort så det inte blir dubbelt */
+.link-wrapper a::after { display: none; }
+
+/* Ikon – samma teknik som .inline-icon */
+.leaving-icon {
+  display: inline;
+  height: 0.65em;
+  width: auto;
+  vertical-align: -0.05em;
+  margin-left: 0.2em;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
-section {
-  margin-bottom: 32px;
+.leaving-icon--hover                        { display: none;   }
+.link-wrapper:hover .leaving-icon--default  { display: none;   }
+.link-wrapper:hover .leaving-icon--hover    { display: inline; }
+
+
+/* ── Höger panel / detaljsida ──────────────────────────────────── */
+.detail-panel-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 16px;
 }
 
-.back-button,
-.project-link-button {
-  appearance: none;
-  border: 0;
-  background: none;
+.detail-panel-title { font-size: 19px; }
+
+.detail-panel-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.detail-panel-body {
+  font-size: 14px;
   color: var(--muted);
-  font: inherit;
-  font-size: 16px;
-  line-height: 1.45;
-  padding: 0;
-  cursor: pointer;
+  line-height: 1.6;
+}
+
+.detail-panel-body + .detail-panel-body {
+  margin-top: 12px;
+}
+
+
+/* ── Hoverable text (klickbar span utan <a>) ───────────────────── */
+/* Identisk stil med <a>: underline, Caveat-swap på hover           */
+.hoverable-text {
   display: inline-block;
   vertical-align: baseline;
   white-space: nowrap;
   position: relative;
+  cursor: pointer;
 }
 
-.back-button:hover,
-.project-link-button:hover {
-  font-family: 'CaveatFitted', cursive;
-  font-weight: 500;
-}
-
-.back-button {
-  margin-bottom: 28px;
-}
-
-.project-link-button {
-  margin-top: 12px;
-}
-
-.back-button::after,
-.project-link-button::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0.5px;
-  background-color: var(--muted);
-}
-
-.back-button::before,
-.project-link-button::before {
+/* Bredd-reservation: håller Roboto-bredden så hover inte ger layout-shift */
+.hoverable-text::before {
   content: attr(data-label);
   display: block;
   height: 0;
@@ -82,33 +106,65 @@ section {
   letter-spacing: 0;
 }
 
-.projects-page {
-  padding-top: 2px;
+.hoverable-text::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
+  height: 0.5px;
+  background-color: var(--text);
 }
+
+.hoverable-text:hover {
+  font-family: 'CaveatFitted', cursive;
+  font-weight: 500;
+}
+
+
+/* ── Header ────────────────────────────────────────────────────── */
+.header { margin-bottom: 40px; }
+
+.inline-icon {
+  display: inline;
+  height: 1em;
+  width: auto;
+  vertical-align: -0.15em;
+  margin-right: 0.35em;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.greeting {
+  font-family: 'CaveatFitted', cursive;
+  font-weight: 500;
+  font-size: 24px;
+  margin-bottom: 6px;
+  width: fit-content;
+}
+
+/* Easter egg: Hello! reverserar till Roboto på hover */
+.greeting:hover {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+
+/* ── Listor / sektioner ────────────────────────────────────────── */
+section { margin-bottom: 32px; }
 
 .label {
   font-size: 19px;
-  color: var(--text);
   margin-bottom: 4px;
 }
 
-ul {
-  list-style: none;
-}
-
-li {
-  padding: 5px 0;
-}
+ul { list-style: none; }
+li { padding: 5px 0; }
 
 .item-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: 16px;
-}
-
-.item-title {
-  font-weight: 400;
 }
 
 .item-date {
@@ -124,16 +180,18 @@ li {
   margin-top: 1px;
 }
 
-/* Programmeringsspråk */
+.projects-page { padding-top: 2px; }
+
+
+/* ── Språk ─────────────────────────────────────────────────────── */
 .code {
-  font-family: 'Roboto Mono', ui-monospace, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 15px;
 }
 
-/* Språksektion */
 .lang-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 16px;
 }
 
@@ -144,13 +202,16 @@ li {
   flex-shrink: 0;
 }
 
-/* Footer */
+
+/* ── Footer ────────────────────────────────────────────────────── */
 footer {
   margin-top: 40px;
   display: flex;
   gap: 20px;
 }
 
+
+/* ── Länkar och knappar (Caveat-swap) ──────────────────────────── */
 a {
   color: inherit;
   text-decoration: none;
@@ -161,6 +222,7 @@ a {
   cursor: pointer;
 }
 
+/* Bredd-reservation: ::before håller Roboto-bredden – gäller a och button */
 a::before,
 button::before {
   content: attr(data-label);
@@ -180,14 +242,63 @@ a::after,
 button::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
+  bottom: 0; left: 0;
   width: 100%;
   height: 0.5px;
   background-color: var(--text);
 }
 
-a:hover {
+a:hover,
+.link-wrapper:hover a {
   font-family: 'CaveatFitted', cursive;
   font-weight: 500;
+}
+
+
+/* ── Navigeringsknappar (Back, Everything else) ─────────────────── */
+.back-button,
+.project-link-button {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;           /* ärver font-family, size, weight, line-height från body */
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: baseline;
+  white-space: nowrap;
+  position: relative;
+}
+
+.back-button:hover,
+.project-link-button:hover {
+  font-family: 'CaveatFitted', cursive;
+  font-weight: 500;
+}
+
+/* Underline i muted-färg (override av det globala button::after) */
+.back-button::after,
+.project-link-button::after {
+  background-color: var(--muted);
+}
+
+.back-button         { margin-bottom: 28px; }
+.project-link-button { margin-top: 12px; }
+
+
+/* ── Mobil (≤ 900px) ────────────────────────────────────────────
+   Endast tre saker ändras:
+   1. Grid blir block
+   2. left-pane får explicit horisontell padding (gridet hanterade det)
+   3. right-pane döljs (visas aldrig inline på mobil)              */
+@media (max-width: 900px) {
+  .layout { display: block; }
+
+  .left-pane {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+
+  .right-pane { display: none; }
 }

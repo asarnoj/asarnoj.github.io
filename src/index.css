@@ -14,28 +14,21 @@
 }
 
 :root {
-  --bg: #ffffff;
-  --text: #111111;
-  --muted: #888888;
-  --line: #e8e8e8;
-  --red: #d60000;
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0f0f0f;
-    --text: #ededed;
-    --muted: #666666;
-    --line: #252525;
-    --red: #ff3b3b;
-  }
+  --bg: #002fa7;
+  --text: #f0ece3;
+  --muted: #99a8cc;
+  --line: #1a40bb;
+  --red: #ff6b6b;
+  --gutter: max(16px, 5vw); /* ett enda mått styr all horisontell spacing */
+  color-scheme: dark;
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 body {
@@ -51,7 +44,5 @@ body {
 }
 
 #root {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 60px 24px 80px;
+  width: 100%;
 }
