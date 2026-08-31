@@ -17,7 +17,7 @@ function useIsMobile() {
 }
 
 // Gemensam logik för Caveat letter-spacing-kompensation
-function useFontSwapHandlers(children) {
+function useFontSwapHandlers(children, fontSize = 16) {
   const outerRef = useRef(null)
   const innerRef = useRef(null)
 
@@ -33,7 +33,7 @@ function useFontSwapHandlers(children) {
       'position:fixed', 'top:-9999px', 'left:-9999px',
       'visibility:hidden', 'pointer-events:none',
       'font-family:CaveatFitted,cursive', 'font-weight:500',
-      'font-size:16px', 'white-space:nowrap', 'letter-spacing:0',
+      `font-size:${fontSize}px`, 'white-space:nowrap', 'letter-spacing:0',
     ].join(';')
     probe.textContent = children
     document.body.appendChild(probe)
@@ -46,7 +46,7 @@ function useFontSwapHandlers(children) {
       inner.style.letterSpacing = `${gap / (n - 1)}px`
     }
     outer.style.width = `${reservedWidth}px`
-  }, [children])
+  }, [children, fontSize])
 
   const handleMouseLeave = useCallback(() => {
     if (!innerRef.current || !outerRef.current) return
@@ -58,13 +58,17 @@ function useFontSwapHandlers(children) {
 }
 
 // Extern länk – leaving-icon utanför <a> så att bredduträkningen inte störs
-function Link({ href, children }) {
+// muted: grå variant i kroppstext-storlek (14px) för länkar inuti detaljtext
+function Link({ href, children, muted = false }) {
   const { outerRef, innerRef, handleMouseEnter, handleMouseLeave } =
-    useFontSwapHandlers(children)
+    useFontSwapHandlers(children, muted ? 14 : 16)
+
+  const iconDefault = muted ? '/leaving-page-icon-muted.svg' : '/leaving-page-icon.svg'
+  const iconHover = muted ? '/leaving-page-icon-muted-hover.svg' : '/leaving-page-icon-hover.svg'
 
   return (
     <span
-      className="link-wrapper"
+      className={muted ? 'link-wrapper link-wrapper--muted' : 'link-wrapper'}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -77,8 +81,8 @@ function Link({ href, children }) {
       >
         <span ref={innerRef}>{children}</span>
       </a>
-      <img src="/leaving-page-icon.svg" className="leaving-icon leaving-icon--default" alt="" aria-hidden="true" draggable="false" />
-      <img src="/leaving-page-icon-hover.svg" className="leaving-icon leaving-icon--hover" alt="" aria-hidden="true" draggable="false" />
+      <img src={iconDefault} className="leaving-icon leaving-icon--default" alt="" aria-hidden="true" draggable="false" />
+      <img src={iconHover} className="leaving-icon leaving-icon--hover" alt="" aria-hidden="true" draggable="false" />
     </span>
   )
 }
@@ -153,8 +157,16 @@ function RightPanelContent({ id }) {
   const panels = {
     'langapp': {
       title: 'Language learning app',
-      body: 'Generative linguistics & atomic spaced repetition. Placeholder – projektbeskrivning kommer här.',
       github: 'https://github.com/asarnoj/Spra-kprogrammet',
+      body: [
+        "An app for learning languages with a new approach, built to compete with conventional apps like Duolingo and Babbel. Rather than walking learners through fixed lessons, it tracks exactly what someone knows and doesn't know — down to the individual word and inflection — and builds practice from there.",
+        <>It works with grammatical building blocks rather than fixed phrases, so it can tell which inflection of which word a learner missed, not just that a sentence was wrong. From that, it generates new sentences to practice, matched to what the learner is ready for. Translation exercises work best when you already know about <Link muted href="https://www.researchgate.net/publication/248424656_What_percentage_of_text-lexis_is_essential_for_comprehension">95%</Link> of what's in them, and this approach can target that level directly.</>,
+        "Underneath is a universal model of language. The grammatical structure of a sentence is defined once and filled with words tagged in a language-neutral way, so the same sentence can be rendered in any language the system supports. A speaker of any supported language can learn any other. The first version covers Swedish, English, German, French, Spanish, Italian and Japanese.",
+        <>At the core is a word database covering all the languages, drawn from frequency lists and focused on the <Link muted href="https://en.wikipedia.org/wiki/Common_European_Framework_of_Reference_for_Languages">A1, A2 and B1</Link> levels. Learners can also create and share their own databases — a practical way to learn the specific words most relevant to them, like the vocabulary of their job or hobbies.</>,
+        <>Each thing a learner practices is treated as a separate item and scheduled with <Link muted href="https://en.wikipedia.org/wiki/Spaced_repetition">spaced repetition</Link>, a well-established method for moving knowledge into long-term memory. It uses <Link muted href="https://github.com/open-spaced-repetition/awesome-fsrs/wiki/ABC-of-FSRS">FSRS</Link>, a modern scheduling algorithm also used by <Link muted href="https://en.wikipedia.org/wiki/Anki">Anki</Link>. This lets the app put together lessons that fit a learner's current level.</>,
+        "With this foundation in place, a lot becomes possible to add: AI narration and voice playback, or generated stories for the learner to translate. Each new feature builds on the same underlying system.",
+        "Language learning has two sides: the grammar and vocabulary you can study, and the lived experience — cultural nuance, and how people actually speak. The app focuses on the first and leaves the second alone, since that's something apps don't do well. For that, real exposure works best: a language café, watching things you enjoy, or visiting the country. The app is meant to be used alongside that exposure, not to replace it.",
+      ],
     },
     'pixeldepth': {
       title: 'Depth in pixel graphics',
@@ -164,7 +176,6 @@ function RightPanelContent({ id }) {
     'mixtape': {
       title: 'The Mixtape Project',
       website: 'https://themixtapeproject.online',
-      github: 'https://github.com/asarnoj/themixtapeproject4',
       video: '/mixtape-showcase.mp4',
       body: [
         "I had this really simple idea that I've never seen on the internet before.",
@@ -265,7 +276,7 @@ function App() {
           <ul>
             <ProjectRow
               title="Polymarket arbitrage trader"
-              year="2026–current"
+              year="2026–present"
               meta="A trading bot that finds arbitrage over time on cryptocurrency 5-minute prediction markets."
             />
             <ProjectRow
@@ -336,7 +347,7 @@ function App() {
                   {' '}and{' '}
                   <Link href="https://www.kth.se/student/kurser/kurs/DT1175?l=en">Sound Physics</Link>
                 </div>
-                <span className="item-date">2024–current</span>
+                <span className="item-date">2024–present</span>
               </div>
             </li>
           </ul>
@@ -348,10 +359,20 @@ function App() {
             <li>
               <div className="item-row">
                 <div className="item-title">
+                  <img src="/icon-6.svg" className="inline-icon" alt="" aria-hidden="true" draggable="false" />
+                  <HoverableText onClick={() => openPanel('mixtape')}>Music sharing app</HoverableText>
+                </div>
+                <span className="item-date">present</span>
+              </div>
+              <div className="item-meta">An iOS and Android app in React Native</div>
+            </li>
+            <li>
+              <div className="item-row">
+                <div className="item-title">
                   <img src="/icon-4.svg" className="inline-icon" alt="" aria-hidden="true" draggable="false" />
                   <HoverableText onClick={() => openPanel('langapp')}>Language learning app</HoverableText>
                 </div>
-                <span className="item-date">current</span>
+                <span className="item-date">present</span>
               </div>
               <div className="item-meta">Generative linguistics &amp; atomic spaced repetition</div>
             </li>
@@ -368,12 +389,12 @@ function App() {
             <li>
               <div className="item-row">
                 <div className="item-title">
-                  <img src="/icon-6.svg" className="inline-icon" alt="" aria-hidden="true" draggable="false" />
-                  <HoverableText onClick={() => openPanel('mixtape')}>Music sharing app</HoverableText>
+                  <img src="/icon-5.svg" className="inline-icon" alt="" aria-hidden="true" draggable="false" />
+                  <HoverableText onClick={() => openPanel('docker')}>Docker</HoverableText>
                 </div>
-                <span className="item-date">2025</span>
+                <span className="item-date">2026</span>
               </div>
-              <div className="item-meta">An iOS and Android app in React Native</div>
+              <div className="item-meta">A place to track all tasks. It is automatically synced with all assignments on Canvas for my studies.</div>
             </li>
           </ul>
           <NavButton className="project-link-button" onClick={goToEverythingElse}>

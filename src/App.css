@@ -35,6 +35,10 @@
 /* <a>:s egna underline tas bort så det inte blir dubbelt */
 .link-wrapper a::after { display: none; }
 
+/* Grå variant – länkar inuti detaljtext (14px, muted färg) */
+.link-wrapper--muted::after { background-color: var(--muted); }
+.link-wrapper--muted a::before { font-size: 14px; }
+
 /* Ikon – samma teknik som .inline-icon */
 .leaving-icon {
   display: inline;
